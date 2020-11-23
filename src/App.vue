@@ -1,7 +1,10 @@
 <template>
-    <h2>{{ state.count }}, doubled = {{ state.doubled }}</h2>
+    <!-- <h2>{{ state.count }}, doubled = {{ state.doubled }}</h2>
     <button @click="updateCount(true)">Increase</button>
-    <button @click="updateCount(false)">Decrease</button>
+    <button @click="updateCount(false)">Decrease</button> -->
+    <h2>{{ loading }}</h2>
+    <h2>{{ user.name }}</h2>
+    <h2>{{ user.username }}</h2>
 </template>
 
 <script>
@@ -27,25 +30,50 @@
 // }
 
 // REACTIVE
-import { reactive, computed } from "vue";
+// import { reactive, computed } from "vue";
+
+// export default {
+//     setup() {
+//         const state = reactive({
+//             count: 0,
+//             doubled: computed(() => state.count * 2)
+//         })
+
+//         function updateCount(increase) {
+//             if (increase)
+//                 state.count++
+//             else
+//                 state.count--
+//         }
+
+//         return {
+//             state,
+//             updateCount
+//         }
+//     }
+// }
+
+// TO REFS
+import { reactive, toRefs } from "vue";
 
 export default {
     setup() {
         const state = reactive({
-            count: 0,
-            doubled: computed(() => state.count * 2)
+            loading: true,
+            user: {
+                name: 'Agtamas Miftahul',
+                username: 'agtamasmiftahul'
+            }
         })
 
-        function updateCount(increase) {
-            if (increase)
-                state.count++
-            else
-                state.count--
-        }
+        setTimeout(() => {
+            state.loading = false
+            state.user.name = 'Agtamas'
+            state.user.username = 'agtamasm'
+        }, 2000)
 
         return {
-            state,
-            updateCount
+            ...toRefs(state)
         }
     }
 }
